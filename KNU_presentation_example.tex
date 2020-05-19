@@ -1,0 +1,322 @@
+\documentclass[ukrainian]{beamer}
+
+
+\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[main=ukrainian,english,russian]{babel}
+
+\usepackage{accsupp}
+\DeclareTextCommand{\cyrii}{T2A}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=0456}%
+  \symbol{105}%
+  \EndAccSupp{}%
+}
+\DeclareTextCommand{\CYRII}{T2A}{%
+  \BeginAccSupp{method=hex,unicode,ActualText=0406}%
+  \symbol{73}%
+  \EndAccSupp{}%
+}
+
+\usetheme{MathDept}
+
+%спеціальні символи
+\newcommand {\littleO} {\ensuremath{o}}
+\newcommand {\bigO} {\ensuremath{\mathcal{O}}}
+\newcommand{\RR}{\mathbb{R}}
+\newcommand{\NN}{\mathbb{N}}
+\newcommand*\diff{\mathop{}\!\mathrm{d}}
+\newcommand{\Dz}{\mathrm{D}_0}
+\newcommand{\Iz}{\mathrm{I}_0}
+\newcommand{\DzC}{{}^{C}\mathrm{D}_{0}}
+
+\author{Тимоханов Д. О.}
+%в квадратних дужках коротка назва, що буде показана знизу сторінок
+\title[Рівняння розподіленого порядку]{{\small Випускна кваліфікаційна робота магістра}\\Якісний і чисельний аналіз рівнянь розподіленого порядку}
+
+%тут науковий керівник
+\subtitle{Гуляницький А. Л.}
+
+
+\begin{document}
+
+
+% Use
+%
+%     \begin{frame}[allowframebreaks]
+%
+% if the TOC does not fit one frame.
+\begin{frame}
+    \frametitle{Зміст}
+    \tableofcontents
+\end{frame}
+
+\section{Рівняння субдифузії розподіленого порядку}
+
+\begin{frame}
+    \frametitle{Рівняння субдифузії розподіленого порядку}
+    \tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Рівняння дифузії}
+Розглянемо спершу звичне рівняння дифузії:
+
+\begin{equation}\label{diffusion}
+\frac{\partial}{\partial{t}}u(x,t)=\sigma^2\cdot\Delta{u}(x,t)+f(x,t)
+\end{equation}
+
+Добре відомо, що при $f\equiv0$ середньоквадратичне відхилення частинок є лінійним в часі. На жаль, не всі дифузійні процеси мають цю властивість \cite{Metzler2001}. Тому рівняння (\ref{diffusion}) не підходить для моделювання будь-якої дифузії.
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Рівняння субдифузії}
+
+Зміна фізичних припущень призводить \cite{Metzler2001} до так званого рівняння субдифузії:
+
+\begin{equation}\label{anomalous}
+\DzC^{\alpha}u(x,t)=\sigma^2\cdot\Delta{u}(x,t)+f(x,t)
+\end{equation}
+
+де $0<\alpha<1$, $\DzC^{\alpha}$ --- оператор дробового диференціювання Капуто:
+
+\begin{equation}\label{caputo}
+\DzC^{\alpha}u(x,t)=\frac{1}{\Gamma(1-\alpha)}\int_0^t\frac{u'_s(x,s)}{(t-s)^\alpha}\diff{s},\hspace{2mm}0<\alpha<1
+\end{equation}
+
+При $f\equiv0$ рівняння (\ref{anomalous}) призводить до середньоквадратичного відхилення частинок, що зростає в часі як $t^\alpha$. Звідси одразу видно важливу властивість субдифузії --- нелокальність в часі.
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Рівняння субдифузії розподіленого порядку}
+
+Але й субдифузійна модель не здатна моделювати всі дифузійні процеси. Одне з узагальнень цієї моделі --- субдифузія розподіленого порядку:
+
+\begin{equation}\label{distr_order}
+\int_0^1p(s)\cdot\tau^\alpha\cdot\DzC^{\alpha}u(x,t)\diff\alpha=\sigma^2\cdot\Delta{u}(x,t)+f(x,t)
+\end{equation}
+
+тут $p(\cdot)$ --- щільність розподілу порядку похідної. За рахунок вибору цієї щільності можна забезпечити, що середньоквадратичне відхилення частинок зростатиме як $(\log{t})^v$ \cite{}, що узгоджується з експериментальними результатами. Така дифузія називається суперповільною.
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Рівняння субдифузії розподіленого порядку}
+
+Розглядатимемо рівняння розподіленого порядку (\ref{distr_order}) разом з початковою та крайовою умовою в області $\Omega\times{I}$:
+
+\begin{equation}\label{initial}
+u(x,0)=u_0(x)\hspace{2mm}\forall{x}\in{\Omega}
+\end{equation}
+\begin{equation}\label{boundary}
+u(x,t)|_{x\in\partial\Omega}=0\hspace{2mm}\forall{t}\in{I}
+\end{equation}
+
+Про щільність $p(\cdot)$ приймаємо такі припущення:
+
+\begin{itemize}
+	
+	\vspace{1mm}
+	\item $p(\alpha)=p_{reg}(\alpha)+\sum_{i=1}^\infty{p_i}\cdot\delta(\alpha-\alpha_i)$,\smallskip
+
+	\vspace{1mm}
+	\item $p_{reg}\in{L^1((0;1))}$, $p_{reg}(\alpha)\geq0$ для майже всіх $\alpha\in(0;1)$, $\forall i\in\NN\hspace{2mm} p_i\geq0$,\smallskip
+
+	\vspace{1mm}
+	\item $\exists \epsilon>0:\hspace{1mm}\mathrm{supp}\hspace{1mm}p_{reg}\in[0;1-\epsilon],\hspace{1mm}\forall{i}\in\NN\hspace{2mm}0<\alpha_i<1-\epsilon$,\smallskip
+
+	\vspace{1mm}
+	\item $\int_0^1p_{reg}(\alpha)\diff{\alpha}+\sum_{i=1}^\infty{p_i}=1$.\smallskip
+
+	\vspace{1mm}
+\end{itemize}
+
+\end{frame}
+
+\section{Простори Соболєва розподіленого порядку}
+
+\begin{frame}
+    \frametitle{Простори Соболєва розподіленого порядку}
+    \tableofcontents[currentsection]
+\end{frame}
+
+\begin{frame}
+    \frametitle{Простори Соболєва}
+
+\begin{definition}
+Простір Соболєва порядку $\alpha\in(0;1)$:
+\begin{equation}
+H^\alpha(I)=\big\{v(t)\hspace{1mm}|\hspace{1mm}v\in{L^2(I)};\Dz^\alpha{v}\in{L^2(I)}\big\}
+\end{equation}
+
+з нормою
+\begin{equation}\label{deriv_sob_norm}
+\|v\|_\alpha=\left(\|v\|_{L^2(I)}^2+\|\Dz^\alpha{v}\|_{L^2(I)}^2\right)^\frac{1}{2}
+\end{equation}
+\end{definition}
+
+в цьому означенні $\Dz^\alpha$ --- оператор диференціювання Рімана-Ліувілля:
+
+\begin{equation}
+\Dz^\alpha{u(t)}=\frac{\partial}{\partial{t}}\left(\frac{1}{\Gamma(1-\alpha)}\int_0^t \frac{u(s)}{(t-s)^{\alpha}}\diff{s}\right),\hspace{2mm}0<\alpha<1
+\end{equation}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Простори Соболєва розподіленого порядку}
+
+Природно спробувати узагальнити означення простору Соболєва на розподілені порядки:
+
+\begin{definition}
+Простір Соболєва розподіленого порядку зі щільністю $p(\cdot)$:
+\begin{equation}
+H^{p(\cdot)}(I)=\Big\{v(t)\hspace{1mm}|\hspace{1mm}\forall{\alpha\in\left[0;\frac{\alpha_{max}}{2}\right)}\hspace{1mm}v\in{H^\alpha(I)};\|v\|_{p(\cdot)}<\infty\Big\}
+\end{equation}
+з нормою
+\begin{equation}\label{distr_sob_norm}
+\|v\|_{p(\cdot)}^2=\int_0^1p(\alpha)\cdot\|v\|_{\frac{\alpha}{2}}^2\diff{\alpha}
+\end{equation}
+\end{definition}
+\end{frame}
+
+\begin{frame}
+\frametitle{Простори розподіленого порядку на шкалі Соболєва}
+
+Позначимо:
+\begin{equation}
+\alpha_{max}=\max\Big\{\mathrm{esssup}\{\mathrm{supp}\hspace{1mm}p_{reg}(\alpha)\},\sup_{i\in\NN}\alpha_i\Big\}
+\end{equation}
+
+З припущень про щільність, $\alpha_{max}<1$.
+
+\begin{proposition}
+Мають місце вкладення:
+
+\begin{equation}\label{sob_scale}
+\forall{\alpha\in\left[0;\frac{\alpha_{max}}{2}\right)}\hspace{2mm}H^{\frac{\alpha_{max}}{2}}(I)\subseteq{H}^{p(\cdot)}(I)\subseteq H^\alpha(I)
+\end{equation}
+
+\end{proposition}
+
+В загальному випадку ці вкладення строгі.
+\end{frame}
+
+\begin{frame}
+\frametitle{Простори Соболєва розподіленого порядку}
+
+Простори розподіленого порядку мають такі властивості:
+
+\begin{proposition}\label{completeness}
+$H^{p(\cdot)}(I)$ є повним простором.
+\end{proposition}
+
+\begin{proposition}\label{density}
+$C_0^{\infty}(I)$ --- щільна в $H^{p(\cdot)}(I)$ множина.
+\end{proposition}
+
+Іншими словами, простір $H^{p(\cdot)}(I)$ можна ототожнити з поповненням $C_0^{\infty}(I)$ за нормою $\|\cdot\|_{p(\cdot)}$.
+
+\end{frame}
+
+\begin{frame}
+\frametitle{Альтернативне означення розподіленої норми}
+
+\end{frame}
+
+\section{Виділення}
+
+\begin{frame}
+    \frametitle{Виділення}
+    
+    Можна \alert{виділяти} слова в тексті.
+    
+    \begin{alertblock}{Важливе повідомлення}
+       \alert{Дуже} важливо.
+    \end{alertblock}
+    
+    Можна навіть використати \structure{колір теми}.
+\end{frame}
+
+\section{Списки}
+
+\begin{frame}
+    \frametitle{Списки}
+    
+    \begin{itemize}
+        \item
+        Просто елемент списку.
+    \end{itemize}
+    
+    \begin{enumerate}
+        \item
+        Нумерований елемент списку.
+    \end{enumerate}
+    
+    \begin{description}
+        \item[Важливо]
+        підсвічує сірим текстом.
+    \end{description}
+    
+    \begin{example}
+        \begin{itemize}
+            \item
+            Списки змінюють колір після зміни середовища.
+        \end{itemize}
+    \end{example}
+\end{frame}
+
+\section{Список літератури}
+
+
+\begin{frame}[allowframebreaks]
+    \frametitle{Список літератури}
+
+    \begin{thebibliography}{}
+
+        % Article is the default.
+        \setbeamertemplate{bibliography item}[book]
+
+        \bibitem{Hartshorne1977}
+        R.~Hartshorne.
+        \newblock \emph{Algebraic Geometry}.
+        \newblock Springer-Verlag, 1977.
+
+        \setbeamertemplate{bibliography item}[article]
+
+        \bibitem{Artin1966}
+        M.~Artin.
+        \newblock On isolated rational singularities of surfaces.
+        \newblock \emph{Amer. J. Math.}, 80(1):129--136, 1966.
+
+        \setbeamertemplate{bibliography item}[online]
+
+        \bibitem{Vakil2006}
+        R.~Vakil.
+        \newblock \emph{The moduli space of curves and Gromov--Witten theory}, 2006.
+        \newblock \url{http://arxiv.org/abs/math/0602347}
+
+        \setbeamertemplate{bibliography item}[triangle]
+
+        \bibitem{AM1969}
+        M.~Atiyah og I.~Macdonald.
+        \newblock \emph{Introduction to commutative algebra}.
+        \newblock Addison-Wesley Publishing Co., Reading, Mass.-London-Don
+        Mills, Ont., 1969
+
+        \setbeamertemplate{bibliography item}[text]
+
+        \bibitem{Fraleigh1967}
+        J.~Fraleigh.
+        \newblock \emph{A first course in abstract algebra}.
+        \newblock Addison-Wesley Publishing Co., Reading, Mass.-London-Don Mills, Ont., 1967
+
+    \end{thebibliography}
+\end{frame}
+
+
+\end{document}
